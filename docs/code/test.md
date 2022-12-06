@@ -1,5 +1,5 @@
 <script>
-    locker("GoodByeSCU");
+    locker("PissOffNo.4");
 </script>
 
 # 12.6习题
