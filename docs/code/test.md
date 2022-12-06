@@ -370,10 +370,55 @@ int main()
 
 ## 四
 
-> 请等待。还没有可以AC的题解出现……
+> **本题使用的方法已经属于高中算法竞赛的水平，因此请量力而行。**
 
 ```c
-//Wait
+#include <stdio.h>
+
+int org[100000];
+int ans[100000]={0};
+int total=0,last=0;
+int Max=0;
+
+int main()
+{
+    int order=0;
+    scanf("%d",&total);
+    for(int i=0;i<total;i++)
+    {
+        scanf("%d",&org[i]);
+    }
+    ans[0]=org[0];
+    for(int i=1;i<total;i++)
+    {
+        if(org[i]>ans[last])
+        {
+            //printf("%d>%d,last=%d\n",org[i],ans[last],last);
+            last++;
+            ans[last]=org[i];
+        }
+        else
+        {
+            for(int j=0;j<=last;j++)
+            {
+                if(org[i]<=ans[j])
+                {
+                    //printf("%d<=%d,index=%d\n",org[i],ans[j],j);
+                    ans[j]=org[i];
+                    //last=j;
+                    break;
+                }
+            }
+        }
+        /*if(last+1>Max)
+        {
+            Max=last+1;
+        }*/
+    }
+    //printf("%d",Max);
+    printf("%d",last+1);
+    return 0;
+}
 ```
 
 ## 五
