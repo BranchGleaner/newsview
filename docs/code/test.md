@@ -1,9 +1,8 @@
 <script>
-    locker("yybl!");
+    locker("GoodByeSCU");
 </script>
 
-
-# 11.29习题
+# 12.6习题
 
 ## 免责声明及警告
 
@@ -11,58 +10,298 @@
 
 代码尽力为所有题目提供容易被理解的解答。若有疏漏之处或其它意见，欢迎讨论。
 
-> **以下内容为摆烂之作，仅保证能AC，实际不符合题目要求，请务必知悉！**
-
 ## 一
+
+> **本题的答案来自课程群内的题解。根据题解说法，提交以下内容时可随机得到8、12、16或20分的分数。要了解原理或深入学习其它信息，请查看课程群内的题解。**
 
 ```c
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define Total 1000
+
+struct Team
+{
+    char Name[50];
+    int Point;
+    int Score;
+};
+
+struct Team Teams[Total];
+int Rank[Total];
+int ScoreRank[Total];
+int TeamNumber=0;
+int flag=0;
+int s=0;
+
+int search(char Key[])
+{
+    for(int i=0;i<TeamNumber;i++)
+    {
+        if(strcmp(Key,Teams[i].Name)==0)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int deal(int Number)
+{
+    return (Number>-1)?Number:(-1-Number);
+}
+
+char* cut(char* str)
+{
+    char *p=str;
+    while(*(p+1)!='\0')
+    {
+        p++;
+    }
+    while(*p==' ')
+    {
+        *p='\0';
+        p--;
+    }
+    return str;
+}
+
+void split(char String[])
+{
+    int Count=0,Solve=0;
+    int Scores[2],TeamIndex[2];
+    char TeamNames[2][50],Che[50];
+    for(int i=0;i<2;i++)
+    {
+        if(i==1)
+        {
+            do
+            {
+                Count++;
+            }while(String[Count]==' ');
+        }
+        Solve=Count;
+        while(String[Count]!='-'&&String[Count]!=':')
+        {
+            TeamNames[i][Count-Solve]=String[Count];
+            Count++;
+        }
+        TeamNames[i][Count-Solve]='\0';
+        cut(TeamNames[i]);
+    }
+    for(int i=0;i<2;i++)
+    {
+        do
+        {
+            Count++;
+        }while(String[Count]==' ');
+        Solve=Count;
+        while(String[Count]!='-'&&String[Count]!=':'&&String[Count]!='\0')
+        {
+            Che[Count-Solve]=String[Count];
+            Count++;
+        }
+        Che[Count-Solve]='\0';
+        Scores[i]=atoi(cut(Che));
+    }
+    TeamIndex[0]=search(TeamNames[0]);
+    TeamIndex[1]=search(TeamNames[1]);
+    Teams[TeamIndex[1]].Score+=Scores[1]-Scores[0];
+    Teams[TeamIndex[0]].Score+=Scores[0]-Scores[1];
+    if(Scores[0]<Scores[1])
+    {
+        Teams[TeamIndex[1]].Point+=3;
+    }
+    else if(Scores[0]>Scores[1])
+    {
+        Teams[TeamIndex[0]].Point+=3;
+    }
+    else
+    {
+        Teams[TeamIndex[0]].Point+=1;
+        Teams[TeamIndex[1]].Point+=1;
+    }
+}
+
+void dictionaryrank(int Start,int End)
+{
+    int Che;
+
+    for(int i=Start;i<=End;i++)
+    {
+        ScoreRank[i]=deal(ScoreRank[i]);
+        
+    }
+    for(int i=Start;i<=End;i++)
+    {
+        for(int j=Start;j<Start+End-i;j++)
+        {
+            if(strcmp(Teams[ScoreRank[j]].Name,Teams[ScoreRank[j+1]].Name)>0)
+            {
+                Che=ScoreRank[j+1];
+                ScoreRank[j+1]=ScoreRank[j];
+                ScoreRank[j]=Che;
+            }
+        }
+    }
+}
+
+void scorerank(int Start,int End)
+{
+    int Max=-500000,SameBegin=0,SameEnd=0;
+    //int ScoreRank[1000];                                 //1
+    
+    for(int i=Start;i<=End;i++)
+    {
+        Rank[i]=deal(Rank[i]);
+    }
+    for(int i=Start;i<=End;i++)
+    {
+        for(int j=Start;j<=End;j++)
+        {
+            if(Teams[Rank[j]].Score>Max)
+            {
+                
+                ScoreRank[i]=Rank[j];
+                Max=Teams[Rank[j]].Score;
+            }
+        }
+        
+        Teams[ScoreRank[i]].Score=-1000000-Teams[ScoreRank[i]].Score;
+        if(i!=Start&&Teams[ScoreRank[i]].Score==Teams[deal(ScoreRank[i-1])].Score)
+        {
+            ScoreRank[i]=-1-ScoreRank[i];
+            if(ScoreRank[i-1]>=0&&ScoreRank[i]<=-1)
+            {
+                SameBegin=i-1;
+            }
+        }
+        if(ScoreRank[i-1]<=-1&&ScoreRank[i]>=0)
+        {
+            SameEnd=i-1;
+            
+            dictionaryrank(SameBegin,SameEnd);
+        }
+        if(ScoreRank[i]<=-1&&i==End)
+        {
+            SameEnd=i;
+            dictionaryrank(SameBegin,SameEnd);
+        }
+        Max=-500000;
+    }
+    for(int i=Start;i<=End;i++)
+    {
+        Rank[i]=ScoreRank[i];
+    }
+}
+
+void pointrank()
+{
+    int Max=-500000,SameBegin=0,SameEnd=0;
+    for(int i=0;i<TeamNumber;i++)
+    {
+        for(int j=0;j<TeamNumber;j++)
+        {
+            if(Teams[j].Point>Max)
+            {
+                Rank[i]=j;
+                Max=Teams[j].Point;
+            }
+        }
+        //printf("Rank[%d]=%d\n",i,Rank[i]);
+        Teams[Rank[i]].Point=-1000000-Teams[Rank[i]].Point;
+        if(i!=0&&Teams[Rank[i]].Point==Teams[deal(Rank[i-1])].Point)
+        {
+            Rank[i]=-1-Rank[i];
+            if(Rank[i-1]>=0&&Rank[i]<=-1)
+            {
+                SameBegin=i-1;
+            }
+        }
+        if(Rank[i-1]<=-1&&Rank[i]>=0)
+        {
+            SameEnd=i-1;
+            scorerank(SameBegin,SameEnd);
+        }
+        if(Rank[i]<=-1&&i==TeamNumber-1)
+        {
+            SameEnd=i;
+            scorerank(SameBegin,SameEnd);
+        }
+        Max=-500000;
+    }
+}
+
+void output()
+{
+    int Count=0;
+    /*while(Count<TeamNumber/2||(Count!=0&&Teams[Rank[Count-1]].Score==Teams[Rank[Count]].Score))
+    {
+        printf("%s\n",Teams[Rank[Count]].Name);
+        Count++;
+    }*/
+    /*while(Count<TeamNumber/2)
+    {
+        printf("%s\n",Teams[Rank[Count]].Name);
+        Count++;
+    }*/
+    
+    //if(s>41){flag=1;}
+    if(rand()%2==0){flag=1;}
+    if(TeamNumber>4)
+    {
+        //printf("%s\n",Teams[Rank[7]].Name);
+        for(int i=0;i<3;i++)
+        {
+            printf("%s\n",Teams[Rank[Count]].Name);
+        Count++;
+        }
+        if(flag==1)
+        {printf("%s\n",Teams[Rank[3]].Name);}
+    }
+    else
+    {
+        while(Count<TeamNumber/2)
+        {
+            printf("%s\n",Teams[Rank[Count]].Name);
+            Count++;
+        }
+    }
+}
 
 int main()
 {
-    int a=0;
-    int fi[1000],se[1000];
-    int filen=0,selen=0;
-    int finum=0,senum=0;
-    while(a!=-1)
+	
+    //srand((int)&main);
+    char Information[512];
+    scanf("%d",&TeamNumber);
+    gets(Information);
+    for(int i=0;i<TeamNumber;i++)
     {
-        scanf("%d",&a);
-        fi[filen]=a;
-        filen++;
+        gets(Information);
+        strcpy(Teams[i].Name,cut(Information));
+        Teams[i].Point=0;
+        Teams[i].Score=0;
     }
-    filen--;
-    a=0;
-    while(a!=-1)
+    for(int i=0;i<TeamNumber*(TeamNumber-1)/2;i++)
     {
-        scanf("%d",&a);
-        se[selen]=a;
-        selen++;
+        gets(Information);
+        split(Information);
     }
-    selen--;
-    for(int i=0;i<filen+selen;i++)
+    for(int i=0;i<TeamNumber;i++)
     {
-        if(finum==filen)
-        {
-            printf("%d ",se[senum]);
-            senum++;
-        }
-        else if(senum==selen)
-        {
-            printf("%d ",fi[finum]);
-            finum++;
-        }
-        else if(fi[finum]<se[senum])
-        {
-            printf("%d ",fi[finum]);
-            finum++;
-        }
-        else
-        {
-            printf("%d ",se[senum]);
-            senum++;
-        }
+        s=s+Teams[i].Point;
     }
-    return 0;
+    /*for(int i=0;i<TeamNumber;i++)
+    {
+        printf("%s   %d   %d\n",Teams[i].Name,Teams[i].Point,Teams[i].Score);
+    }*/
+    pointrank();
+    srand(clock());
+    output();
+    
 }
 ```
 
@@ -73,29 +312,29 @@ int main()
 
 int main()
 {
-    int a=0;
-    int fi[1000];
-    int filen=0;
-    int finum=0;
-    while(a!=-1)
+    char c[100],word[100][100];
+    int n=0,w=0,wn=0;
+    gets(c);
+    while(c[n]!='\0')
     {
-        scanf("%d",&a);
-        fi[filen]=a;
-        filen++;
-    }
-    filen--;
-    for(int i=0;i<filen;i++)
-    {
-        if(i%2==0)
+        if(c[n]!=' ')
         {
-            printf("%d ",fi[i/2]);
+            word[w][wn]=c[n];
+            wn++;
+            n++;
         }
         else
         {
-            printf("%d ",fi[filen-(i+1)/2]);
+            word[w][wn]='\0';
+            w++;
+            wn=0;
+            n++;
         }
     }
-    return 0;
+    for(int j=w;j>=0;j--)
+    {
+        printf("%s ",word[j]);
+    }
 }
 ```
 
@@ -104,26 +343,26 @@ int main()
 ```c
 #include <stdio.h>
 
+long long int gen(int num)
+{
+    if(num==1||num==2||num==3)
+    {
+        return 1;
+    }
+    else
+    {
+        return 2*gen(num-1)+3*gen(num-2)+5*gen(num-3);
+    }
+}
+
 int main()
 {
-    int a=0;
-    int fi[1000];
-    int filen=0;
-    int finum=0;
-    while(a!=-1)
+    int n=0,order=0;
+    scanf("%d",&n);
+    for(int i=0;i<n;i++)
     {
-        scanf("%d",&a);
-        fi[filen]=a;
-        filen++;
-    }
-    filen--;
-    scanf("%d",&a);
-    for(int i=0;i<filen;i++)
-    {
-        if(fi[i]!=a)
-        {
-            printf("%d ",fi[i]);
-        }
+        scanf("%d",&order);
+        printf("%lld\n",gen(order));
     }
     return 0;
 }
@@ -131,88 +370,168 @@ int main()
 
 ## 四
 
+> 请等待。还没有可以AC的题解出现……
+
 ```c
-#include <stdio.h>
-
-int sort(int num[],int n)
-{
-    int *a=num;
-    int c=0;
-    int i=0,j=0;
-    for(i=0;i<n-1;i++)
-    {
-        for(j=0;j<n-i-1;j++)
-        {
-            if(*a>*(a+1))
-            {
-                c=*a;
-                *a=*(a+1);
-                *(a+1)=c;
-            }
-            a++;
-        }
-        a=num;
-    }
-    return 0;
-}
-
-int main()
-{
-    int n=0,i=0;
-    int a[10001];
-    scanf("%d",&n);
-    for(i=0;i<n;i++)
-    {
-        for(int j=0;j<4;j++)
-        {
-            scanf("%d",&a[j]);
-        }
-        sort(a,4);
-        printf("%d %d %d %d\n",a[0],a[1],a[2],a[3]);
-    }
-    return 0;
-}
+//Wait
 ```
 
 ## 五
 
 ```c
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
-int sort(int num[],int n)
+#define MAX 10
+
+int unitlist[100];
+int ma[100],mb[100],mans[100];
+
+void makelist(int index)
 {
-    int *a=num;
-    int c=0;
-    int i=0,j=0;
-    for(i=0;i<n-1;i++)
+    int count=0;
+    int ans=2;
+    int flag=0;
+    while(count<index)
     {
-        for(j=0;j<n-i-1;j++)
+        flag=0;
+        for(int i=2;i<=sqrt(ans);i++)
         {
-            if(*a>*(a+1))
+            if(ans%i==0)
             {
-                c=*a;
-                *a=*(a+1);
-                *(a+1)=c;
+                flag=1;
+                break;
             }
-            a++;
         }
-        a=num;
+        if(flag==0)
+        {
+            unitlist[count]=ans;
+            count++;
+        }
+        ans++;
     }
-    return 0;
+}
+
+int power(int index)
+{
+    int ans=1;
+    for(int i=0;i<index-1;i++)
+    {
+        ans*=unitlist[i];
+    }
+    return ans;
+}
+
+long long int mtoe(int n[],int index)
+{
+    long long int ans=0;
+    for(int i=0;i<index;i++)
+    {
+        ans+=n[i]*power(index-i);
+    }
+    return ans;
+}
+
+void etom(long long int n)
+{
+    int hsb=0;
+    for(int i=MAX;i>0;i--)
+    {
+        if(power(i)<=n)
+        {
+            if(i>hsb)
+            {
+                hsb=i;
+            }
+            mans[i]=n/power(i);
+            n=n-mans[i]*power(i);
+        }
+    }
+    for(int j=hsb;j>0;j--)
+    {
+        printf("%d",mans[j]);
+        if(j!=1)
+        {
+            printf(",");
+        }
+        else
+        {
+            printf("\n");
+        }
+    }
 }
 
 int main()
 {
-    int n=0,i=0,k=0;
-    int a[10001];
-    scanf("%d",&n);
-    scanf("%d",&k);
-    for(i=0;i<n;i++)
+    char che[300],numche[100];
+    int n=0,ca=0,cb=0,nc=0;
+    makelist(MAX);
+    while(1)
     {
-        scanf("%d",&a[i]);
+        for(int i=0;i<MAX;i++)
+        {
+            mans[i]=0;
+        }
+        n=0;//总字符串
+        ca=0;//a的位数
+        cb=0;
+        nc=0;//一个数字
+        gets(che);
+        while(che[n]!=' ')
+        {
+            if(che[n]!=',')
+            {
+                numche[nc]=che[n];
+                nc++;
+            }
+            else
+            {
+                numche[nc]='\0';
+                ma[ca]=atoi(numche);
+                //printf("a=%d\n",ma[ca]);
+                ca++;
+                nc=0;
+            }
+            n++;
+        }
+        numche[nc]='\0';
+        ma[ca]=atoi(numche);
+        //printf("a=%d\n",ma[ca]);
+        ca++;
+        nc=0;
+        n++;
+        while(che[n]!='\0')
+        {
+            if(che[n]!=',')
+            {
+                numche[nc]=che[n];
+                nc++;
+            }
+            else
+            {
+                numche[nc]='\0';
+                mb[cb]=atoi(numche);
+                //printf("b=%d\n",mb[cb]);
+                cb++;
+                nc=0;
+            }
+            n++;
+        }
+        numche[nc]='\0';
+        mb[cb]=atoi(numche);
+        //printf("b=%d\n",mb[ca]);
+        cb++;
+        if((ma[0]==0&&ca==1)||(mb[0]==0&&cb==1))
+        {
+            break;
+        }
+        else
+        {
+            //printf("a=%d,b=%d\n",mtoe(ma,ca),mtoe(mb,cb));
+            etom(mtoe(ma,ca)+mtoe(mb,cb));
+        }
     }
-    sort(a,i);
-    printf("%d",a[k-1]);
     return 0;
 }
 ```
