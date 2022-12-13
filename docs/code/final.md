@@ -1,6 +1,8 @@
 <script>
     locker("Final");
 </script>
+
+
 # 高级语言程序设计　期末资料与复习思路
 
 ## 有言在先：声明及警告
@@ -19,9 +21,9 @@
 
 ## 天元机巧：常见功能要求及其实现
 
-#### 数据处理
+### 数据处理
 
-##### 输入数据格式
+#### 输入数据格式
 
 可以充分利用scanf函数的格式控制符来把每个输入的数据赋值给对应的变量。更具体的细节在“字符与字符串-字符串读取”一节中介绍。
 
@@ -44,51 +46,51 @@
 > 下面就是用于读入并处理一行数据的代码片段（火星整数的每一位都可能超过十进制的9）：
 >
 > ```c
->  gets(che);//读入一行数据
->         while(che[n]!=' ')
->         {
->             if(che[n]!=',')
->             {
->                 numche[nc]=che[n];//numche数组用于临时存放火星整数的一位
->                 nc++;
->             }
->             else
->             {
->                 numche[nc]='\0';
->                 ma[ca]=atoi(numche);//atoi函数用于把字符串转换为整型
->                 ca++;
->                 nc=0;
->             }
->             n++;
->         }
->         numche[nc]='\0';
->         ma[ca]=atoi(numche);//这样，ma数组里的每个数就是火星正整数A的每一位了
->         ca++;
->         nc=0;
->         n++;
->         while(che[n]!='\0')
->         {
->             if(che[n]!=',')
->             {
->                 numche[nc]=che[n];
->                 nc++;
->             }
->             else
->             {
->                 numche[nc]='\0';
->                 mb[cb]=atoi(numche);
->                 cb++;
->                 nc=0;
->             }
->             n++;
->         }
->         numche[nc]='\0';
->         mb[cb]=atoi(numche);//这样，mb数组里的每个数就是火星正整数B的每一位了
+> gets(che);//读入一行数据
+>      while(che[n]!=' ')
+>      {
+>          if(che[n]!=',')
+>          {
+>              numche[nc]=che[n];//numche数组用于临时存放火星整数的一位
+>              nc++;
+>          }
+>          else
+>          {
+>              numche[nc]='\0';
+>              ma[ca]=atoi(numche);//atoi函数用于把字符串转换为整型
+>              ca++;
+>              nc=0;
+>          }
+>          n++;
+>      }
+>      numche[nc]='\0';
+>      ma[ca]=atoi(numche);//这样，ma数组里的每个数就是火星正整数A的每一位了
+>      ca++;
+>      nc=0;
+>      n++;
+>      while(che[n]!='\0')
+>      {
+>          if(che[n]!=',')
+>          {
+>              numche[nc]=che[n];
+>              nc++;
+>          }
+>          else
+>          {
+>              numche[nc]='\0';
+>              mb[cb]=atoi(numche);
+>              cb++;
+>              nc=0;
+>          }
+>          n++;
+>      }
+>      numche[nc]='\0';
+>      mb[cb]=atoi(numche);//这样，mb数组里的每个数就是火星正整数B的每一位了
 > ```
 >
 > 利用类似的方法，也可以编写函数做各种各样的输入数据处理。
 
-##### 分离数位
+#### 分离数位
 
 有时题目会需要我们能够把输入数字的每一位分离出来。这时可以采用如下的办法：
 
@@ -103,9 +105,9 @@ while(fi!=0)
 }
 ```
 
-#### 字符与字符串
+### 字符与字符串
 
-##### 字符串读取
+#### 字符串读取
 
 - scanf("%s",src);
 
@@ -121,7 +123,7 @@ while(fi!=0)
 
 - 利用getchar()逐个读取字符进字符数组。
 
-##### 大小写转换
+#### 大小写转换
 
 > **使用部分库函数时不要忘记了写#include <ctype.h>或类似语句！**本文末尾有常用库函数列表。
 
@@ -134,27 +136,27 @@ C 库函数 int toupper(int c) 把小写**字母**转换为大写字母。
 > ```c
 > char strc(char a)
 > {
->     if(a>='A'&&a<='Z')
->     {
->         a='a'-'A'+a;
->     }
->     return a;
+>  if(a>='A'&&a<='Z')
+>  {
+>      a='a'-'A'+a;
+>  }
+>  return a;
 > }
 > ```
 >
 > 利用类似的方法，也可以编写函数判断传入的字符是否是小写字母、大写字母、数字……等。
 
-##### 字符串拼接
+#### 字符串拼接
 
 C 库函数 char *strcat(char *dest, const char *src) 把 src 所指向的字符串追加到 dest 所指向的字符串的结尾。
 
-##### 字符串复制
+#### 字符串复制
 
 C 库函数 char *strcpy(char *dest, const char *src) 把 src 所指向的字符串复制到 dest。
 
 需要注意的是如果目标数组 dest 不够大，而源字符串的长度又太长，可能会造成缓冲溢出的情况。
 
-##### 字符串比较
+#### 字符串比较
 
 C 库函数 int strcmp(const char *str1, const char *str2) 把 str1 所指向的字符串和 str2 所指向的字符串进行比较。
 
@@ -162,7 +164,7 @@ C 库函数 int strcmp(const char *str1, const char *str2) 把 str1 所指向的
 - 如果返回值大于 0，则表示 str1 大于 str2。
 - 如果返回值等于 0，则表示 str1 等于 str2。
 
-##### 字符串查找
+#### 字符串查找
 
 字符串查找也是常考内容。遇到这种问题，可以把字符串当成数组处理：
 
@@ -174,29 +176,29 @@ C 库函数 int strcmp(const char *str1, const char *str2) 把 str1 所指向的
 > 
 > int main()
 > {
->     char d[512],x[512];
->     gets(d);
->     gets(x);
->     int dl=strlen(d);
->     int xl=strlen(x);
->     int count=0,flag=0;
->     for(int i=0;i<dl-xl+1;i++)
->     {
->         flag=0;
->         for(int j=0;j<xl;j++)
->         {
->             if(d[i+j]!=x[j])
->             {
->                 flag=1;
->             }
->         }
->         if(flag==0)
->         {
->             count++;
->         }
->     }
->     printf("%d",count);
->     return 0;
+>  char d[512],x[512];
+>  gets(d);
+>  gets(x);
+>  int dl=strlen(d);
+>  int xl=strlen(x);
+>  int count=0,flag=0;
+>  for(int i=0;i<dl-xl+1;i++)
+>  {
+>      flag=0;
+>      for(int j=0;j<xl;j++)
+>      {
+>          if(d[i+j]!=x[j])
+>          {
+>              flag=1;
+>          }
+>      }
+>      if(flag==0)
+>      {
+>          count++;
+>      }
+>  }
+>  printf("%d",count);
+>  return 0;
 > }
 > ```
 
@@ -206,23 +208,23 @@ C 库函数 int strcmp(const char *str1, const char *str2) 把 str1 所指向的
 >
 > ```c
 > for(int i=0;i<GoalLen-TargetLen+1;i++)
->     {
->         Flag=0;
->         for(int j=0;j<TargetLen;j++)
->         {
->             if(tolower(Goal[i+j])!=tolower(Target[j]))
->             {
->                 Flag=-1;
->                 break;
->             }
->         }
->         if(Flag==0)
->         {
->             FindList[Count]=i;
->             Count++;
->             i=i+TargetLen-1;//正是这一行使我们查找的子串不允许重叠了
->         }
->     }
+>  {
+>      Flag=0;
+>      for(int j=0;j<TargetLen;j++)
+>      {
+>          if(tolower(Goal[i+j])!=tolower(Target[j]))
+>          {
+>              Flag=-1;
+>              break;
+>          }
+>      }
+>      if(Flag==0)
+>      {
+>          FindList[Count]=i;
+>          Count++;
+>          i=i+TargetLen-1;//正是这一行使我们查找的子串不允许重叠了
+>      }
+>  }
 > ```
 
 此外，可以使用 C 语言的库函数实现这一功能：
@@ -235,17 +237,17 @@ C 库函数 int strcmp(const char *str1, const char *str2) 把 str1 所指向的
 > 
 > int main()
 > {
->     int i,n,j,k=0;
->     char a1[1001],a2[1001];
->     scanf("%s %s",a1,a2);
->     char *p;
->     p=a1;
->     while( ( p=strstr(p,a2) ) != NULL)//p为子串与母串匹配成功
->     {								  //时,子串第一个符号在母串
->         k++;						  //中出现的位置地址
->         p++; //p++后才能匹配下一个，否则无法退出循环
->     }
->     printf("%d",k);
+>  int i,n,j,k=0;
+>  char a1[1001],a2[1001];
+>  scanf("%s %s",a1,a2);
+>  char *p;
+>  p=a1;
+>  while( ( p=strstr(p,a2) ) != NULL)//p为子串与母串匹配成功
+>  {								  //时,子串第一个符号在母串
+>      k++;						  //中出现的位置地址
+>      p++; //p++后才能匹配下一个，否则无法退出循环
+>  }
+>  printf("%d",k);
 > }
 > ```
 
@@ -261,11 +263,11 @@ C 库函数 int strcmp(const char *str1, const char *str2) 把 str1 所指向的
 >
 > ```c
 > for (int i = 0; i < n; ++i)
->   for (int j = 0; j < n; ++j)
->     if (a[i] + a[j] == 0) ++ans;
+> for (int j = 0; j < n; ++j)
+>  if (a[i] + a[j] == 0) ++ans;
 > ```
 
-#### 模拟
+### 模拟
 
 模拟就是**用计算机来模拟题目中要求**的操作。模拟题目通常具有码量大、操作多、思路繁复的特点。由于它码量大，经常会出现难以查错的情况，如果在考试中写错是相当浪费时间的。
 
@@ -283,17 +285,17 @@ C 库函数 int strcmp(const char *str1, const char *str2) 把 str1 所指向的
 >
 > ```c
 > int main() {
->   int n = 0, u = 0, d = 0;
->   std::scanf("%d%d%d", &u, &d, &n);
->   int time = 0, dist = 0;
->   while (true) {  // 用死循环来枚举
->     dist += u;
->     time++;
->     if (dist >= n) break;  // 满足条件则退出死循环
->     dist -= d;
->   }
->   printf("%d\n", time);  // 输出得到的结果
->   return 0;
+> int n = 0, u = 0, d = 0;
+> std::scanf("%d%d%d", &u, &d, &n);
+> int time = 0, dist = 0;
+> while (true) {  // 用死循环来枚举
+>  dist += u;
+>  time++;
+>  if (dist >= n) break;  // 满足条件则退出死循环
+>  dist -= d;
+> }
+> printf("%d\n", time);  // 输出得到的结果
+> return 0;
 > }
 > ```
 >
@@ -304,43 +306,43 @@ C 库函数 int strcmp(const char *str1, const char *str2) 把 str1 所指向的
 > 
 > double add(int n)
 > {
->     if(n==0)
->     {
->         return 0;
->     }
->     else
->     {
->         return 1.0/(double)n;
->     }
+>  if(n==0)
+>  {
+>      return 0;
+>  }
+>  else
+>  {
+>      return 1.0/(double)n;
+>  }
 > }
 > 
 > int main()
 > {
->     int num=0;
->     scanf("%d",&num);
->     int f=0,s=0;
->     double ans=0;
->     for(int i=0;i<num;i++)
->     {
->         ans=0;
->         scanf("%d %d",&f,&s);
->         if(f>s)
->         {
->             f=f+s;
->             s=f-s;
->             f=f-s;
->         }
->         for(int j=f;j<=s;j++)
->         {
->             ans+=add(j);
->         }
->         printf("%.3f\n",ans);
->     }
->     return 0;
+>  int num=0;
+>  scanf("%d",&num);
+>  int f=0,s=0;
+>  double ans=0;
+>  for(int i=0;i<num;i++)
+>  {
+>      ans=0;
+>      scanf("%d %d",&f,&s);
+>      if(f>s)
+>      {
+>          f=f+s;
+>          s=f-s;
+>          f=f-s;
+>      }
+>      for(int j=f;j<=s;j++)
+>      {
+>          ans+=add(j);
+>      }
+>      printf("%.3f\n",ans);
+>  }
+>  return 0;
 > }
 > ```
 
-#### 递归
+### 递归
 
 递归指**在函数的定义中使用函数自身**的方法，在计算机科学中还额外指一种通过重复将问题分解为同类的子问题而解决问题的方法。
 
@@ -365,40 +367,40 @@ C 库函数 int strcmp(const char *str1, const char *str2) 把 str1 所指向的
 > 
 > void deal(int num)
 > {
->     int n=num;
->     if(n==1)
->     {
->         return ;
->     }
->     else if(n%2==0)
->     {
->         count++;
->         deal(n/2);
->     }
->     else
->     {
->         count++;
->         deal((3*n+1)/2);
->     }
+>  int n=num;
+>  if(n==1)
+>  {
+>      return ;
+>  }
+>  else if(n%2==0)
+>  {
+>      count++;
+>      deal(n/2);
+>  }
+>  else
+>  {
+>      count++;
+>      deal((3*n+1)/2);
+>  }
 > }
 > 
 > int main()
 > {
->     int num=0;
->     scanf("%d",&num);
->     int c=0;
->     for(int i=0;i<num;i++)
->     {
->         count=0;
->         scanf("%d",&c);
->         deal(c);
->         printf("%d\n",count);
->     }
->     return 0;
+>  int num=0;
+>  scanf("%d",&num);
+>  int c=0;
+>  for(int i=0;i<num;i++)
+>  {
+>      count=0;
+>      scanf("%d",&c);
+>      deal(c);
+>      printf("%d\n",count);
+>  }
+>  return 0;
 > }
 > ```
 
-#### 排序
+### 排序
 
 排序算法非常多。受时间和精力所限，我们将只简要介绍一种简单的排序算法——冒泡排序。
 
@@ -411,18 +413,18 @@ C 库函数 int strcmp(const char *str1, const char *str2) 把 str1 所指向的
 > ```c
 > // 假设数组的大小是 n + 1，冒泡排序从数组下标 1 开始
 > void bubble_sort(int *a, int n) {
->   bool flag = true;//较低的 C 语言标准中不存在bool类型。这时可以使用int类型替代它。
->   while (flag) {
->     flag = false;
->     for (int i = 1; i < n; ++i) {
->       if (a[i] > a[i + 1]) {
->         flag = true;
->         int t = a[i];
->         a[i] = a[i + 1];
->         a[i + 1] = t;
->       }
->     }
->   }
+> bool flag = true;//较低的 C 语言标准中不存在bool类型。这时可以使用int类型替代它。
+> while (flag) {
+>  flag = false;
+>  for (int i = 1; i < n; ++i) {
+>    if (a[i] > a[i + 1]) {
+>      flag = true;
+>      int t = a[i];
+>      a[i] = a[i + 1];
+>      a[i + 1] = t;
+>    }
+>  }
+> }
 > }
 > ```
 
@@ -430,7 +432,7 @@ C 库函数 int strcmp(const char *str1, const char *str2) 把 str1 所指向的
 
 > **以下算法可以不掌握。一般而言，它们只会出现在压轴题或类似难度的题目中。**至于此处未列出的其它算法，我猜测它们应该不会出现在题目中，故而不在此处写明。
 
-#### 搜索
+### 搜索
 
 搜索，也就是对状态空间进行枚举，通过穷尽所有的可能来找到最优解，或者统计合法解的个数。这里我们只介绍一种搜素方式：深度优先搜索。
 
@@ -459,61 +461,61 @@ end
 > 
 > int iscan(int n,int p)//这一步正是检查是否有访问标记
 > {
->     for(int i=1;i<p;i++)
->     {
->         if(list[i]==n)
->         {
->             return 1;
->         }
->     }
->     return 0;
+>  for(int i=1;i<p;i++)
+>  {
+>      if(list[i]==n)
+>      {
+>          return 1;
+>      }
+>  }
+>  return 0;
 > }
 > 
 > void r(int p)//这个函数正是用于执行搜索的函数
 > {
->     if(p==6)
->     {
->         for(int j=1;j<6;j++)
->         {
->             printf("%d",list[j]);
->         }
->         printf("\n");
->         return;
->     }
->     else
->     {
->         for(int i=f;i<f+5;i++)
->         {
->             if(iscan(i,p)==0)
->             {
->                 list[p]=i;
->                 r(p+1);
->                 list[p]=-2;
->             }
->         }
->     }
+>  if(p==6)
+>  {
+>      for(int j=1;j<6;j++)
+>      {
+>          printf("%d",list[j]);
+>      }
+>      printf("\n");
+>      return;
+>  }
+>  else
+>  {
+>      for(int i=f;i<f+5;i++)
+>      {
+>          if(iscan(i,p)==0)
+>          {
+>              list[p]=i;
+>              r(p+1);
+>              list[p]=-2;
+>          }
+>      }
+>  }
 > }
 > 
 > int main()
 > {
->     int num=0;
->     scanf("%d",&num);
->     for(int i=0;i<num;i++)
->     {
->         for(int j=0;j<6;j++)
->         {
->             list[j]=-2;
->         }
->         scanf("%d",&f);
->         r(1);
->     }
->     return 0;
+>  int num=0;
+>  scanf("%d",&num);
+>  for(int i=0;i<num;i++)
+>  {
+>      for(int j=0;j<6;j++)
+>      {
+>          list[j]=-2;
+>      }
+>      scanf("%d",&f);
+>      r(1);
+>  }
+>  return 0;
 > }
 > ```
 >
 > 除了上面的例子外，搜索算法还有很多用处，例如解决“八皇后问题”等。
 
-#### 贪心
+### 贪心
 
 贪心算法，是用计算机来模拟一个「贪心」的人做出决策的过程。这个人十分贪婪，每一步行动总是按某种指标选取最优的操作。而且他目光短浅，总是**只看眼前，并不考虑以后可能造成的影响**。
 
@@ -557,7 +559,7 @@ end
 > }
 > ```
 
-#### 动态规划
+### 动态规划
 
 动态规划是一种通过把原问题分解为相对简单的子问题的方式求解复杂问题的方法。
 
@@ -660,52 +662,52 @@ end
 > 
 > struct tree
 > {
->     int num;
->     struct tree *le;
->     struct tree *ri;
+>  int num;
+>  struct tree *le;
+>  struct tree *ri;
 > };
 > 
 > void read(struct tree *fi)
 > {
->     if(fi->le!=NULL)
->     {
->         read(fi->le);
->     }
->     printf("%d ",fi->num);
->     if(fi->ri!=NULL)
->     {
->         read(fi->ri);
->     }
+>  if(fi->le!=NULL)
+>  {
+>      read(fi->le);
+>  }
+>  printf("%d ",fi->num);
+>  if(fi->ri!=NULL)
+>  {
+>      read(fi->ri);
+>  }
 > }
 > 
 > int main()
 > {
->     struct tree Trees[512];
->     int n=0,le,ri;
->     scanf("%d",&n);
->     for(int i=0;i<n;i++)
->     {
->         scanf("%d %d",&le,&ri);
->         Trees[i+1].num=i+1;
->         if(le!=-1)
->         {
->             Trees[i+1].le=&Trees[le];
->         }
->         else
->         {
->             Trees[i+1].le=NULL;
->         }
->         if(ri!=-1)
->         {
->             Trees[i+1].ri=&Trees[ri];
->         }
->         else
->         {
->             Trees[i+1].ri=NULL;
->         }
->     }
->     read(&Trees[1]);
->     return 0;
+>  struct tree Trees[512];
+>  int n=0,le,ri;
+>  scanf("%d",&n);
+>  for(int i=0;i<n;i++)
+>  {
+>      scanf("%d %d",&le,&ri);
+>      Trees[i+1].num=i+1;
+>      if(le!=-1)
+>      {
+>          Trees[i+1].le=&Trees[le];
+>      }
+>      else
+>      {
+>          Trees[i+1].le=NULL;
+>      }
+>      if(ri!=-1)
+>      {
+>          Trees[i+1].ri=&Trees[ri];
+>      }
+>      else
+>      {
+>          Trees[i+1].ri=NULL;
+>      }
+>  }
+>  read(&Trees[1]);
+>  return 0;
 > }
 > ```
 
