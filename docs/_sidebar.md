@@ -3,7 +3,10 @@
   * [简介](gate/gate)
   * [协议](page/right)
   * [日志](gate/logs)
+* **Essays**
+  * [异常](personal/wrong)
 * **Code**
   - [习题](code/test)
   - [作业](code/home)
+  - [期末资料](code/final)
   - [比赛题解](code/contest)
