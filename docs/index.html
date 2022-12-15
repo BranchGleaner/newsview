@@ -74,6 +74,21 @@ var right=0;
 var date=new Date;
 var year=date.getFullYear(); 
   window.$docsify = {
+'flexible-alerts': {
+style: 'flat',
+      note: {
+        label: "标注"
+      },
+      tip: {
+        label: "提示"
+      },
+      warning: {
+        label: "警示"
+      },
+      attention: {
+        label: "注意"
+      }
+    },
 markdown: {
     renderer: {
           strong(text) {
@@ -195,6 +210,7 @@ function observerConsole(){
 
 <script src="https://cdn.bootcdn.net/ajax/libs/docsify/4.12.2/docsify.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-c.min.js"></script>
+<script src="https://unpkg.com/docsify-plugin-flexible-alerts"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-cpp.min.js"></script>
 </body>
 </html>
