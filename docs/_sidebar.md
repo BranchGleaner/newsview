@@ -6,7 +6,7 @@
 * **Essays**
   * [异常](personal/wrong)
 * **Code**
-  - [习题](code/test)
+  - [期末复习题](code/test)
   - [作业](code/home)
   - [期末资料](code/final)
   - [比赛题解](code/contest)
